@@ -35,105 +35,104 @@ try {
     # Process $content here
 }
 catch {
-  $savedMods = ""
+    $savedMods = ""
 }
 try {
-$result = @()
-$savedModsAsArray = $savedMods -split "---"
-for ($u=0; $u -lt $urls.Length; $u++) {
-  $url = $urls[$u]
-  $tempUrlWithoutVersion = $url -replace "/(\d|\.)+/", ""
-  $needNewVersionDownload = $true
-  for ($i=0; $i -lt $savedModsAsArray.Length; $i++){
-    $savedMod = $savedModsAsArray[$i]
-    if ($savedMod -eq $url) {
-        $result += $savedMod
-        $needNewVersionDownload = $false
-        break
-    }
-    $tempSavedModWithoutVersion = $savedMod -replace "/(\d|\.)+/", ""
-    if ($tempUrlWithoutVersion -eq $tempSavedModWithoutVersion -or ($tempUrlWithoutVersion -ne $tempSavedModWithoutVersion -and $i -eq ($savedModsAsArray.Length - 1))) {
-        # update package by downloading
-        $result += $url
-        break
-    }
-  }
-  if ($needNewVersionDownload -eq $true) {
-    $htmlString = Invoke-RestMethod -Uri $url
-    $downloadLink = [regex]::Match($htmlString, 'https://thunderstore\.io/package/download/[^\""]+').Value
-    Invoke-WebRequest $downloadLink -OutFile package.zip
-    Expand-Archive package.zip -DestinationPath package -Force
-
-    # Define the path to the parent folder
-    $parentFolderPath = "."
-
-    
-    # Check if the 'package' folder exists
-    $packageFolderPath = Join-Path -Path $parentFolderPath -ChildPath "package"
-    if (Test-Path $packageFolderPath -PathType Container) {
-        # Check if 'BepInExPack' folder exists
-        $bepInExPackFolderPath = Join-Path -Path $packageFolderPath -ChildPath "BepInExPack"
-        if (Test-Path $bepInExPackFolderPath -PathType Container) {
-            # Check if 'BepInEx' folder exists inside 'BepInExPack'
-            $bepInExInsidePackFolderPath = Join-Path -Path $bepInExPackFolderPath -ChildPath "BepInEx"
-            if (Test-Path $bepInExInsidePackFolderPath -PathType Container) {
-                # Move 'BepInEx' folder from 'BepInExPack' to 'package'
-                Move-Item -Path $bepInExInsidePackFolderPath -Destination $packageFolderPath
+    $result = @()
+    $savedModsAsArray = $savedMods -split "---"
+    for ($u=0; $u -lt $urls.Length; $u++) {
+        $url = $urls[$u]
+        $htmlString = Invoke-RestMethod -Uri $url
+        $downloadLink = [regex]::Match($htmlString, 'https://thunderstore\.io/package/download/[^\""]+').Value
+        $tempUrlWithoutVersion = $downloadLink -replace "/(\d|\.)+/", ""
+        $needNewVersionDownload = $true
+        for ($i=0; $i -lt $savedModsAsArray.Length; $i++){
+            $savedMod = $savedModsAsArray[$i]
+            if ($savedMod -eq $downloadLink) {
+                $result += $savedMod
+                $needNewVersionDownload = $false
+                break
+            }
+            $tempSavedModWithoutVersion = $savedMod -replace "/(\d|\.)+/", ""
+            if ($tempUrlWithoutVersion -eq $tempSavedModWithoutVersion -or ($tempUrlWithoutVersion -ne $tempSavedModWithoutVersion -and $i -eq ($savedModsAsArray.Length - 1))) {
+                # update package by downloading
+                $result += $downloadLink
+                break
             }
         }
-        $bepInExFolderPath = Join-Path -Path $packageFolderPath -ChildPath "BepInEx"
-        if (Test-Path $bepInExFolderPath -PathType Container) {
-            Write-Host "'BepInEx' folder already exists. Skipping further checks."
-        }
-        else {
-                # Move any folders in 'package' (excluding 'BepInEx') into 'BepInEx'
-            $allFolders = Get-ChildItem -Path $packageFolderPath -Directory | Where-Object { $_.Name -ne "BepInEx" }
-            if ($allFolders.Count -gt 0) {
-                # Create the 'BepInEx' folder inside 'package'
-                New-Item -Path $bepInExFolderPath -ItemType Directory -Force
+        if ($needNewVersionDownload -eq $true) {
+            Invoke-WebRequest $downloadLink -OutFile package.zip
+            Expand-Archive package.zip -DestinationPath package -Force
 
-                # Move folders into 'BepInEx'
-                foreach ($folder in $allFolders) {
-                    Move-Item -Path $folder.FullName -Destination $bepInExFolderPath
+            # Define the path to the parent folder
+            $parentFolderPath = "."
+
+            
+            # Check if the 'package' folder exists
+            $packageFolderPath = Join-Path -Path $parentFolderPath -ChildPath "package"
+            if (Test-Path $packageFolderPath -PathType Container) {
+                # Check if 'BepInExPack' folder exists
+                $bepInExPackFolderPath = Join-Path -Path $packageFolderPath -ChildPath "BepInExPack"
+                if (Test-Path $bepInExPackFolderPath -PathType Container) {
+                    # Check if 'BepInEx' folder exists inside 'BepInExPack'
+                    $bepInExInsidePackFolderPath = Join-Path -Path $bepInExPackFolderPath -ChildPath "BepInEx"
+                    if (Test-Path $bepInExInsidePackFolderPath -PathType Container) {
+                        # Move 'BepInEx' folder from 'BepInExPack' to 'package'
+                        Move-Item -Path $bepInExInsidePackFolderPath -Destination $packageFolderPath
+                    }
+                }
+                $bepInExFolderPath = Join-Path -Path $packageFolderPath -ChildPath "BepInEx"
+                if (Test-Path $bepInExFolderPath -PathType Container) {
+                    Write-Host "'BepInEx' folder already exists. Skipping further checks."
+                }
+                else {
+                        # Move any folders in 'package' (excluding 'BepInEx') into 'BepInEx'
+                    $allFolders = Get-ChildItem -Path $packageFolderPath -Directory | Where-Object { $_.Name -ne "BepInEx" }
+                    if ($allFolders.Count -gt 0) {
+                        # Create the 'BepInEx' folder inside 'package'
+                        New-Item -Path $bepInExFolderPath -ItemType Directory -Force
+
+                        # Move folders into 'BepInEx'
+                        foreach ($folder in $allFolders) {
+                            Move-Item -Path $folder.FullName -Destination $bepInExFolderPath
+                        }
+                    }
+                    else {
+                        Write-Host "No folder exists inside 'package'. Checking for individual files."
+
+                        # Check for specific files
+                        $filesToExclude = @("icon.png", "manifest.json", "README.md")
+                        $filesToInclude = Get-ChildItem -Path $packageFolderPath -Exclude $filesToExclude
+
+                        if ($filesToInclude.Count -gt 0) {
+                            # Create the 'BepInEx/plugin' folder inside 'package'
+                            $pluginFolderPath = Join-Path -Path $packageFolderPath -ChildPath "BepInEx\plugins"
+                            New-Item -Path $pluginFolderPath -ItemType Directory -Force
+                            # Move files into 'BepInEx/plugin'
+                            Move-Item -Path $filesToInclude.FullName -Destination $pluginFolderPath -Force
+                        }
+                        else {
+                            Write-Host "No eligible files found to create 'BepInEx/plugin'. No action taken."
+                        }
+                    }
                 }
             }
             else {
-                Write-Host "No folder exists inside 'package'. Checking for individual files."
-
-                # Check for specific files
-                $filesToExclude = @("icon.png", "manifest.json", "README.md")
-                $filesToInclude = Get-ChildItem -Path $packageFolderPath -Exclude $filesToExclude
-
-                if ($filesToInclude.Count -gt 0) {
-                    # Create the 'BepInEx/plugin' folder inside 'package'
-                    $pluginFolderPath = Join-Path -Path $packageFolderPath -ChildPath "BepInEx\plugins"
-                    New-Item -Path $pluginFolderPath -ItemType Directory -Force
-                    # Move files into 'BepInEx/plugin'
-                    Move-Item -Path $filesToInclude.FullName -Destination $pluginFolderPath -Force
-                }
-                else {
-                    Write-Host "No eligible files found to create 'BepInEx/plugin'. No action taken."
-                }
+                Write-Host "'package' folder does not exist. No action taken."
             }
+
+
+            $folderPath = ".\package\BepInEx"
+            $zipFilePath = "temp.zip"
+            Compress-Archive -Path $folderPath -DestinationPath $zipFilePath
+            Remove-Item -Path package.zip -Recurse -Force
+            Remove-Item -Path package -Recurse -Force
+            Expand-Archive -Path $zipFilePath -DestinationPath . -Force
+            Remove-Item -Path temp.zip -Recurse -Force
         }
     }
-    else {
-        Write-Host "'package' folder does not exist. No action taken."
-    }
-
-
-    $folderPath = ".\package\BepInEx"
-    $zipFilePath = "temp.zip"
-    Compress-Archive -Path $folderPath -DestinationPath $zipFilePath
-    Remove-Item -Path package.zip -Recurse -Force
-    Remove-Item -Path package -Recurse -Force
-    Expand-Archive -Path $zipFilePath -DestinationPath . -Force
-    Remove-Item -Path temp.zip -Recurse -Force
-  }
-}
-$result = $result -join "---"
-Set-Content -Path $savedModsFileName -Value $result
+    $result = $result -join "---"
+    Set-Content -Path $savedModsFileName -Value $result
 } catch {
 
 }
-exit
