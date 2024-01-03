@@ -9,6 +9,7 @@ if (-not (Get-Command -ErrorAction Ignore -Type Cmdlet Start-ThreadJob)) {
 $urls = @(
     "https://thunderstore.io/c/lethal-company/p/BepInEx/BepInExPack/",
     "https://thunderstore.io/c/lethal-company/p/notnotnotswipez/MoreCompany/",
+    "https://thunderstore.io/c/lethal-company/p/Sligili/More_Emotes/",
     "https://thunderstore.io/c/lethal-company/p/x753/More_Suits/",
     "https://thunderstore.io/c/lethal-company/p/Verity/TooManySuits/",
     "https://thunderstore.io/c/lethal-company/p/Dwarggo/Fashion_Company/",
