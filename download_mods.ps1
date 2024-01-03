@@ -47,6 +47,8 @@ $urls = @(
     "https://thunderstore.io/c/lethal-company/p/sfDesat/Orion/",
     "https://thunderstore.io/c/lethal-company/p/2018/LC_API/",
     "https://thunderstore.io/c/lethal-company/p/HolographicWings/LethalExpansion/",
+    "https://thunderstore.io/c/lethal-company/p/Gemumoddo/LethalEmotesAPI/",
+    "https://thunderstore.io/c/lethal-company/p/Rune580/LethalCompany_InputUtils/",
     "https://thunderstore.io/c/lethal-company/p/Gemumoddo/BadAssCompany/"
 )
 
