@@ -8,7 +8,6 @@ if (-not (Get-Command -ErrorAction Ignore -Type Cmdlet Start-ThreadJob)) {
 
 $urls = @(
     "https://thunderstore.io/c/lethal-company/p/BepInEx/BepInExPack/",
-    "https://thunderstore.io/c/lethal-company/p/Sligili/More_Emotes/",
     "https://thunderstore.io/c/lethal-company/p/notnotnotswipez/MoreCompany/",
     "https://thunderstore.io/c/lethal-company/p/x753/More_Suits/",
     "https://thunderstore.io/c/lethal-company/p/Verity/TooManySuits/",
@@ -291,7 +290,7 @@ foreach ($folderNameBase in $extractedPackages.Value) {
     $folderExistence.Remove("Modules")
     foreach ($key in $folderExistence.Keys) {
         Write-Host $key
-        Move-Item -Path "$folderPath\$key" -Destination "$folderPath\BepInEx\config"
+        Move-Item -Path "$folderPath\$key" -Destination "$folderPath\BepInEx\plugins"
     }
     Compress-Archive -Path "$folderPath\*" -DestinationPath "$folderPath\temp.zip"
     Expand-Archive -Path "$folderPath\temp.zip" -DestinationPath $parentFolderPath -Force
