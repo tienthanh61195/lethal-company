@@ -276,7 +276,7 @@ foreach ($folderNameBase in $extractedPackages.Value) {
     }
     $filesToMove = Get-ChildItem -Path $folderPath -File
     foreach ($fileToMove in $filesToMove) {
-        if ($fileToMove.Extension -eq ".lem") {
+        if ($fileToMove.Extension -eq ".lem" -and $fileToMove.Name.ToLower() -ne "lethalexpansion.lem") {
             Move-Item -Path $fileToMove.FullName -Destination "$folderPath\BepInEx\plugins\Modules" 
         } else {
             Move-Item -Path $fileToMove.FullName -Destination "$folderPath\BepInEx\plugins" 
@@ -290,7 +290,6 @@ foreach ($folderNameBase in $extractedPackages.Value) {
     }
     $folderExistence.Remove("Modules")
     foreach ($key in $folderExistence.Keys) {
-        Write-Host "Fuck you"
         Write-Host $key
         Move-Item -Path "$folderPath\$key" -Destination "$folderPath\BepInEx\config"
     }
