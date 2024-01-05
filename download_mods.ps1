@@ -49,7 +49,8 @@ $urls = @(
     "https://thunderstore.io/c/lethal-company/p/HolographicWings/LethalExpansion/",
     "https://thunderstore.io/c/lethal-company/p/Gemumoddo/LethalEmotesAPI/",
     "https://thunderstore.io/c/lethal-company/p/Rune580/LethalCompany_InputUtils/",
-    "https://thunderstore.io/c/lethal-company/p/Gemumoddo/BadAssCompany/"
+    "https://thunderstore.io/c/lethal-company/p/Gemumoddo/BadAssCompany/",
+    "https://thunderstore.io/c/lethal-company/p/AinaVT/LethalConfig/"
 )
 
 $savedModsFileName = "saved_mods.txt"
