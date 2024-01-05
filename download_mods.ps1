@@ -7,7 +7,7 @@ if (-not (Get-Command -ErrorAction Ignore -Type Cmdlet Start-ThreadJob)) {
 
 
 $urls = @(
-    "https://thunderstore.io/c/lethal-company/p/BepInEx/BepInExPack/",
+    "https://thunderstore.io/c/lethal-company/p/BepInEx/BepInExPack/"
     "https://thunderstore.io/c/lethal-company/p/notnotnotswipez/MoreCompany/",
     "https://thunderstore.io/c/lethal-company/p/Sligili/More_Emotes/",
     "https://thunderstore.io/c/lethal-company/p/x753/More_Suits/",
@@ -126,76 +126,6 @@ foreach ($url in $urls) {
             Expand-Archive $packageZipName -DestinationPath $packageName -Force
             $extractedPackages.Value += $packageName
             Remove-Item -Path $packageZipName -Recurse -Force
-           
-
-            
-            # # Check if the 'package' folder exists
-            # $packageFolderPath = Join-Path -Path $parentFolderPath -ChildPath $packageName
-            # if (Test-Path $packageFolderPath -PathType Container) {
-            #     # Check if 'BepInExPack' folder exists
-            #     $bepInExPackFolderPath = Join-Path -Path $packageFolderPath -ChildPath "BepInExPack"
-            #     if (Test-Path $bepInExPackFolderPath -PathType Container) {
-            #         # Check if 'BepInEx' folder exists inside 'BepInExPack'
-            #         $bepInExInsidePackFolderPath = Join-Path -Path $bepInExPackFolderPath -ChildPath "BepInEx"
-            #         if (Test-Path $bepInExInsidePackFolderPath -PathType Container) {
-            #             # Move 'BepInEx' folder from 'BepInExPack' to 'package'
-            #             Move-Item -Path $bepInExInsidePackFolderPath -Destination $packageFolderPath
-            #         }
-            #     }
-            #     $bepInExFolderPath = Join-Path -Path $packageFolderPath -ChildPath "BepInEx"
-            #     if (Test-Path $bepInExFolderPath -PathType Container) {
-            #         Write-Host "'BepInEx' folder already exists. Skipping further checks."
-            #     }
-            #     else {
-            #         Write-Host $bepInExFolderPath
-            #         # Move any folders in 'package' (excluding 'BepInEx') into 'BepInEx'
-            #         New-Item $bepInExFolderPath -Type Directory
-            #         $pluginFolderPath = Join-Path -Path $packageFolderPath -ChildPath "BepInEx\plugins"
-            #         New-Item -Path $pluginFolderPath -Type Directory
-            #         $allFolders = Get-ChildItem -Path $packageFolderPath -Directory
-            #         if ($allFolders.Count -gt 0) {
-            #         # Create the 'BepInEx' folder inside 'package'
-
-            #         # Move folders into 'BepInEx'
-            #             foreach ($folder in $allFolders) {
-            #                 if ($folder.FullName -eq "Modules") {
-            #                     Move-Item -Path $folder.FullName -Destination "$bepInExFolderPath\plugins"
-            #                 }
-            #                 else {
-            #                     Move-Item -Path $folder.FullName -Destination $bepInExFolderPath
-            #                 }
-            #             }
-            #         }
-            #         # Check for specific files
-            #         $filesToExclude = @("icon.png", "manifest.json", "README.md")
-            #         $filesToInclude = Get-ChildItem -Path $packageFolderPath -Exclude $filesToExclude
-
-            #         if ($filesToInclude.Count -gt 0) {
-            #             # Create the 'BepInEx/plugin' folder inside 'package'
-
-            #             Write-Host $filesToExclude.FullName
-            #             # Move files into 'BepInEx/plugin'
-            #             Move-Item -Path $filesToInclude.FullName -Destination $pluginFolderPath -Force
-            #         }
-            #     }
-            # }
-            # else {
-            #     Write-Host "'package' folder does not exist. No action taken."
-            # }
-            # $folderPath = ".\" + $packageName + "\BepInEx"
-            # $items = Get-ChildItem -Path $folderPath
-            # $destinationFolder = ".\BepInEx"
-            # foreach ($item in $items) {
-            #     # Construct the destination path
-            #     $destinationPath = Join-Path -Path $destinationFolder -ChildPath $item.Name
-
-            #     # Move the item
-            #     Move-Item -Path $item.FullName -Destination $destinationPath -Force
-
-            #     Write-Output "Moved $($item.Name) to $destinationFolder"
-            # }
-            # Remove-Item -Path $packageZipName -Recurse -Force
-            # Remove-Item -Path $packageName -Recurse -Force
         }
     }
 }
@@ -209,11 +139,6 @@ foreach ($job in $jobs) {
 
 # Define the path to the parent folder
 $parentFolderPath = "."
-# New-Item -Path "$parentFolderPath\BepInEx" -ItemType Directory -Force
-# New-Item -Path "$parentFolderPath\BepInEx\plugins" -ItemType Directory -Force
-# New-Item -Path "$parentFolderPath\BepInEx\plugins\Modules" -ItemType Directory -Force
-# New-Item -Path "$parentFolderPath\BepInEx\config" -ItemType Directory -Force
-# $bepInExRootFolderPath = "$parentFolderPath\BepInEx"
 
 # Iterate through each folder in the $extractedPackages list
 $knownFolderPaths = @('BepInEx\config', 'BepInEx\plugins\Modules', 'BepInEx\plugins')
@@ -234,16 +159,6 @@ foreach ($folderNameBase in $extractedPackages.Value) {
     }
     $folderExistence.Remove("BepInEx")
 
-
-    if ($folderExistence.BepInExPack -eq $true) {
-        Move-Item -Path "$folderPath\BepInExPack\BepInEx\*" -Destination "$folderPath\BepInEx"
-        $filesToMove = Get-ChildItem -Path "$folderPath\BepInExPack" -File
-        foreach ($file in $filesToMove) {
-            Move-Item -Path $file.FullName -Destination $folderPath -Force
-        }
-        Remove-Item "$folderPath\BepInExPack" -Recurse -Force
-    }
-    $folderExistence.Remove("BepInExPack")
 
     if (-not $folderExistence.plugins) {
         New-Item -Path "$folderPath\BepInEx\plugins" -ItemType Directory -Force
@@ -290,6 +205,25 @@ foreach ($folderNameBase in $extractedPackages.Value) {
         Move-Item -Path "$folderPath\Modules\*" -Destination "$folderPath\BepInEx\plugins\Modules"
     }
     $folderExistence.Remove("Modules")
+    
+    if ($folderExistence.BepInExPack -eq $true) {
+        $foldersOfBepInExPack = Get-ChildItem -Path "$folderPath\BepInExPack\BepInEx" -Directory
+        foreach ($folder in $foldersOfBepInExPack) {
+            if (Test-Path -Path "$folderPath\BepInEx\$($folder.Name)") {
+            } else {
+                New-Item -Path "$folderPath\BepInEx\$($folder.Name)" -ItemType Directory -Force
+            }
+            Move-Item -Path "$($folder.FullName)\*" -Destination "$folderPath\BepInEx\$($folder.Name)" -Force
+        }
+        # Move-Item -Path "$folderPath\BepInExPack\BepInEx\*" -Destination "$folderPath\BepInEx"
+        $filesToMove = Get-ChildItem -Path "$folderPath\BepInExPack" -File
+        foreach ($file in $filesToMove) {
+            Move-Item -Path $file.FullName -Destination $folderPath -Force
+        }
+        Remove-Item "$folderPath\BepInExPack" -Recurse -Force
+    }
+    $folderExistence.Remove("BepInExPack")
+    
     foreach ($key in $folderExistence.Keys) {
         Write-Host $key
         Move-Item -Path "$folderPath\$key" -Destination "$folderPath\BepInEx\plugins"
