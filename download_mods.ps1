@@ -30,7 +30,6 @@ $urls = @(
     "https://thunderstore.io/c/lethal-company/p/FlipMods/ReservedItemSlotCore/",
     "https://thunderstore.io/c/lethal-company/p/TwinDimensionalProductions/CoilHeadStare/",
     "https://thunderstore.io/c/lethal-company/p/Evaisa/LethalLib/",
-    "https://thunderstore.io/c/lethal-company/p/quackandcheese/MirrorDecor/",
     "https://thunderstore.io/c/lethal-company/p/Evaisa/HookGenPatcher/",
     "https://thunderstore.io/c/lethal-company/p/MetalPipeSFX/HornMoan/",
     "https://thunderstore.io/c/lethal-company/p/OrtonLongGaming/FreddyBracken/",
@@ -54,7 +53,6 @@ $urls = @(
 )
 
 $savedModsFileName = "saved_mods.txt"
-$savedCodeVersion = "code_version.txt"
 # $directoryPaths = @("./BepInEx/plugins/Modules", "./BepInEx/config")
 # # Create the directory if it doesn't exist
 # foreach ($directoryPath in $directoryPaths) {
