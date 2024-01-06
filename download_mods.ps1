@@ -5,11 +5,26 @@ if (-not (Get-Command -ErrorAction Ignore -Type Cmdlet Start-ThreadJob)) {
     Install-Module -Name ThreadJob -ErrorAction Stop -Scope CurrentUser -Force
 }
 
+function DeepCopy-Object {
+    param (
+        [Parameter(Mandatory=$true)]
+        [object]$Object
+    )
+
+    # Convert the object to a JSON string
+    $jsonString = $Object | ConvertTo-Json -Depth 10
+
+    # Convert the JSON string back to a PowerShell object
+    $deepCopyObject = $jsonString | ConvertFrom-Json
+
+    return $deepCopyObject
+}
+
 
 $urls = @(
-    "https://thunderstore.io/c/lethal-company/p/BepInEx/BepInExPack/"
+    "https://thunderstore.io/c/lethal-company/p/BepInEx/BepInExPack/",
     "https://thunderstore.io/c/lethal-company/p/notnotnotswipez/MoreCompany/",
-    "https://thunderstore.io/c/lethal-company/p/Sligili/More_Emotes/",
+    # "https://thunderstore.io/c/lethal-company/p/Sligili/More_Emotes/",
     "https://thunderstore.io/c/lethal-company/p/x753/More_Suits/",
     "https://thunderstore.io/c/lethal-company/p/Verity/TooManySuits/",
     "https://thunderstore.io/c/lethal-company/p/Dwarggo/Fashion_Company/",
@@ -34,7 +49,7 @@ $urls = @(
     "https://thunderstore.io/c/lethal-company/p/MetalPipeSFX/HornMoan/",
     "https://thunderstore.io/c/lethal-company/p/OrtonLongGaming/FreddyBracken/",
     "https://thunderstore.io/c/lethal-company/p/x753/Mimics/",
-    "https://thunderstore.io/c/lethal-company/p/steven4547466/YoutubeBoombox/",
+    # "https://thunderstore.io/c/lethal-company/p/steven4547466/YoutubeBoombox/",
     "https://thunderstore.io/c/lethal-company/p/AllToasters/QuickRestart/",
     "https://thunderstore.io/c/lethal-company/p/quackandcheese/MirrorDecor/",
     "https://thunderstore.io/c/lethal-company/p/EliteMasterEric/WackyCosmetics/",
@@ -50,73 +65,68 @@ $urls = @(
     "https://thunderstore.io/c/lethal-company/p/Gemumoddo/LethalEmotesAPI/",
     "https://thunderstore.io/c/lethal-company/p/Rune580/LethalCompany_InputUtils/",
     "https://thunderstore.io/c/lethal-company/p/Gemumoddo/BadAssCompany/",
-    "https://thunderstore.io/c/lethal-company/p/AinaVT/LethalConfig/"
+    "https://thunderstore.io/c/lethal-company/p/AinaVT/LethalConfig/",
+    "https://thunderstore.io/c/lethal-company/p/Jordo/NeedyCats/",
+    "https://thunderstore.io/c/lethal-company/p/malco/Lategame_Upgrades/",
+    "https://thunderstore.io/c/lethal-company/p/kRYstall9/FastSwitchPlayerViewInRadar/",
+    "https://thunderstore.io/c/lethal-company/p/sunnobunno/YippeeMod/"
 )
 
-$savedModsFileName = "saved_mods.txt"
-# $directoryPaths = @("./BepInEx/plugins/Modules", "./BepInEx/config")
-# # Create the directory if it doesn't exist
-# foreach ($directoryPath in $directoryPaths) {
-#     if (-not (Test-Path -Path $directoryPath)) {
-#         New-Item -Path $directoryPath -ItemType Directory -Force
-#     }
-# }
+$savedModsFileName = "saved_mods.json"
+$savedModsObject = @{}
+# Read the JSON content from the file
+$jsonContent = Get-Content -Path $savedModsFileName -Raw
 
-
-# # Create the directory if it doesn't exist
-# if (-not (Test-Path -Path $directoryPath)) {
-#     New-Item -Path $directoryPath -ItemType Directory
-# }
-
+# Convert the JSON content to a PowerShell object
+if ($jsonContent) {
+    $savedModsObject = $jsonContent | ConvertFrom-Json
+}
 # Define the savedMods
-try {
-    $savedMods = Get-Content -Path $savedModsFileName -ErrorAction Stop
-    # Process $content here
-}
-catch {
-    $savedMods = ""
-}
-$result = [hashtable]::Synchronized(@{ 
-    Value = ""
-})
-$savedModsAsArray = $savedMods -split "---"
+
 $jobs = @()
 # Initialize the hashtable
-$extractedPackages = [hashtable]::Synchronized(@{ 
-    Value = @()
+$newSavedModsObject = [hashtable]::Synchronized(@{ 
+    Value = @{}
 })
+
+
 foreach ($url in $urls) {
     $jobs += Start-ThreadJob -Name $url -ScriptBlock {
         $url = $using:url
         $result = $using:result
-        $extractedPackages = $using:extractedPackages
-        $savedModsAsArray = $using:savedModsAsArray
-        $savedMods = $using:savedMods
+        $newSavedModsObject = $using:newSavedModsObject
+        $savedModsObject = $using:savedModsObject
         $htmlString = Invoke-RestMethod -Uri $url
         $downloadLink = [regex]::Match($htmlString, 'https://thunderstore\.io/package/download/[^\""]+').Value
         $tempUrlWithoutVersion = $downloadLink -replace "/(\d|\.)+/", ""
         $needNewVersionDownload = $true
-        if ($savedModsAsArray.Length -eq 0) {
-            $result.Value += $downloadLink
-            $result.Value += "---"
-        } else {
-            for ($i=0; $i -lt $savedModsAsArray.Length; $i++){
-                $savedMod = $savedModsAsArray[$i]
-                if ($savedMod -eq $downloadLink) {
-                    $result.Value += $savedMod
-                    $result.Value += "---"
-                    $needNewVersionDownload = $false
-                    break
-                }
-                $tempSavedModWithoutVersion = $savedMod -replace "/(\d|\.)+/", ""
-                if ($tempUrlWithoutVersion -eq $tempSavedModWithoutVersion -or ($tempUrlWithoutVersion -ne $tempSavedModWithoutVersion -and $i -eq ($savedModsAsArray.Length - 1))) {
-                    # update package by downloading
-                    $result.Value += $downloadLink
-                    $result.Value += "---"
-                    break
-                }
+        if ($savedModsObject.Count -ne 0 -and $savedModsObject.$url.DownloadLink -eq $downloadLink) {
+            $needNewVersionDownload = $false
+            $newSavedModsObject.Value[$url] = $savedModsObject.$url
+        }  else {
+            $newSavedModsObject.Value[$url] = @{
+                DownloadLink = $downloadLink        
+                Path = @()
             }
         }
+        # else {
+        #     for ($i=0; $i -lt $savedModsAsArray.Length; $i++){
+        #         $savedMod = $savedModsAsArray[$i]
+        #         if ($savedMod -eq $downloadLink) {
+        #             $result.Value += $savedMod
+        #             $result.Value += "---"
+        #             $needNewVersionDownload = $false
+        #             break
+        #         }
+        #         $tempSavedModWithoutVersion = $savedMod -replace "/(\d|\.)+/", ""
+        #         if ($tempUrlWithoutVersion -eq $tempSavedModWithoutVersion -or ($tempUrlWithoutVersion -ne $tempSavedModWithoutVersion -and $i -eq ($savedModsAsArray.Length - 1))) {
+        #             # update package by downloading
+        #             $result.Value += $downloadLink
+        #             $result.Value += "---"
+        #             break
+        #         }
+        #     }
+        # }
         if ($needNewVersionDownload -eq $true) {
             $randomNumber = Get-Random -Minimum 0 -Maximum 10000
             $randomNumber = [math]::Round($randomNumber)
@@ -124,26 +134,54 @@ foreach ($url in $urls) {
             $packageZipName = $packageName + ".zip"
             Invoke-WebRequest $downloadLink -OutFile $packageZipName
             Expand-Archive $packageZipName -DestinationPath $packageName -Force
-            $extractedPackages.Value += $packageName
             Remove-Item -Path $packageZipName -Recurse -Force
+            $newSavedModsObject.Value[$url].Package = $packageName
         }
     }
 }
 
-Write-Host "Downloads started..."
-Wait-Job -Job $jobs
+if ($jobs.Length) {
+    Write-Host "Downloads started..."
+    Wait-Job -Job $jobs
+}
 
 foreach ($job in $jobs) {
     Receive-Job -Job $job
 }
 
+
+if ($url.Length) {
+    foreach ($property in $savedModsObject.PSObject.Properties) {
+        $url = $property.Name
+        if (-not $newSavedModsObject.Value.$url) {
+            foreach ($path in $property.Value.Path) {
+                try {
+                    Remove-Item ".\$path" -Force
+                } catch{}
+            }
+          
+        }
+    }
+} else {
+    foreach ($property in $savedModsObject.PSObject.Properties) {
+        $url = $property.Name
+        foreach ($path in $property.Value.Path) {
+            Remove-Item ".\$path" -Force -Recurse
+        }
+    }
+    Remove-Item ".\BepInEx" -Force -Recurse
+}
+
 # Define the path to the parent folder
 $parentFolderPath = "."
 
-# Iterate through each folder in the $extractedPackages list
+# Iterate through each folder in the $newSavedModsObject list
+# $psObject | Get-Member -MemberType Properties
 $knownFolderPaths = @('BepInEx\config', 'BepInEx\plugins\Modules', 'BepInEx\plugins')
-foreach ($folderNameBase in $extractedPackages.Value) {
+foreach ($url in $newSavedModsObject.Value.Keys) {
+    if (-not $newSavedModsObject.Value[$url].Package) {continue}
     # Check if "BepInExPack" folder exists
+    $folderNameBase = $newSavedModsObject.Value[$url].Package
     $folderPath = "$parentFolderPath\$folderNameBase"
 
     # First loop to check if any of the folders exist and set a value indicating their existence
@@ -225,11 +263,23 @@ foreach ($folderNameBase in $extractedPackages.Value) {
     $folderExistence.Remove("BepInExPack")
     
     foreach ($key in $folderExistence.Keys) {
-        Write-Host $key
         Move-Item -Path "$folderPath\$key" -Destination "$folderPath\BepInEx\plugins"
+    }
+    $absoluteFolderPath = Convert-Path $folderPath
+    # Get all files recursively from the specified folder
+    $files = Get-ChildItem -Path $absoluteFolderPath -File -Recurse
+    # Output the relative paths of all files
+    foreach ($file in $files) {
+        # Calculate the relative path
+        $relativePath = $file.FullName.Replace($absoluteFolderPath, "").TrimStart('\')
+        $newSavedModsObject.Value[$url].Path += $relativePath
+        $newSavedModsObject.Value[$url].Remove("Package")
     }
     Compress-Archive -Path "$folderPath\*" -DestinationPath "$folderPath\temp.zip"
     Expand-Archive -Path "$folderPath\temp.zip" -DestinationPath $parentFolderPath -Force
     Remove-Item -Path $folderPath -Recurse -Force
 }
-Set-Content -Path $savedModsFileName -Value $result.Value
+$jsonContent = $newSavedModsObject.Value | ConvertTo-Json
+
+# Save the JSON content to a file
+Set-Content -Path $savedModsFileName -Value $jsonContent
