@@ -28,7 +28,7 @@ $urls = @(
     "https://thunderstore.io/c/lethal-company/p/Verity/TooManySuits/",
     "https://thunderstore.io/c/lethal-company/p/Dwarggo/Fashion_Company/",
     "https://thunderstore.io/c/lethal-company/p/TeamClark/SCP_Foundation_Suit/",
-    "https://thunderstore.io/c/lethal-company/p/akkowo/More_suit_colors_for_more_suits/",
+    # "https://thunderstore.io/c/lethal-company/p/akkowo/More_suit_colors_for_more_suits/",
     "https://thunderstore.io/c/lethal-company/p/Norman/GlowStickSuits/",
     "https://thunderstore.io/c/lethal-company/p/anormaltwig/LateCompany/",
     "https://thunderstore.io/c/lethal-company/p/RugbugRedfern/Skinwalkers/",
@@ -71,8 +71,12 @@ $urls = @(
     "https://thunderstore.io/c/lethal-company/p/Mhz/MoreHead/",
     "https://thunderstore.io/c/lethal-company/p/NomnomAB/RollingGiant/",
     "https://thunderstore.io/c/lethal-company/p/FlipMods/SkipToMultiplayerMenu/",
-    "https://thunderstore.io/c/lethal-company/p/rafl/BonkHitSfxFixed/",
-    "https://thunderstore.io/c/lethal-company/p/IntegrityChaos/Diversity/"
+    "https://thunderstore.io/c/lethal-company/p/rafl/BonkHitSfxFixed/"
+    # "https://thunderstore.io/c/lethal-company/p/IntegrityChaos/Diversity/",
+    # "https://thunderstore.io/c/lethal-company/p/ViViKo/ViViKoCosmetics/",
+    # "https://thunderstore.io/c/lethal-company/p/ViViKo/MoreMaterials/",
+    # "https://thunderstore.io/c/lethal-company/p/Diversion/MaidOutfitFix/",
+    "https://thunderstore.io/c/lethal-company/p/Frack9/DarkMist/"
 
 )
 
