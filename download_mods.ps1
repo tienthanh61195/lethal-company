@@ -72,11 +72,12 @@ $urls = @(
     "https://thunderstore.io/c/lethal-company/p/NomnomAB/RollingGiant/",
     "https://thunderstore.io/c/lethal-company/p/FlipMods/SkipToMultiplayerMenu/",
     "https://thunderstore.io/c/lethal-company/p/rafl/BonkHitSfxFixed/"
-    # "https://thunderstore.io/c/lethal-company/p/IntegrityChaos/Diversity/",
+    "https://thunderstore.io/c/lethal-company/p/IntegrityChaos/Diversity/",
     # "https://thunderstore.io/c/lethal-company/p/ViViKo/ViViKoCosmetics/",
     # "https://thunderstore.io/c/lethal-company/p/ViViKo/MoreMaterials/",
     # "https://thunderstore.io/c/lethal-company/p/Diversion/MaidOutfitFix/",
-    "https://thunderstore.io/c/lethal-company/p/Frack9/DarkMist/"
+    "https://thunderstore.io/c/lethal-company/p/Frack9/DarkMist/",
+    "https://thunderstore.io/c/lethal-company/p/Suskitech/AlwaysHearActiveWalkies/"
 
 )
 
