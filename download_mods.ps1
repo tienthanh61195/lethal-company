@@ -20,7 +20,6 @@ function DeepCopy-Object {
     return $deepCopyObject
 }
 
-
 $urls = @(
     "https://thunderstore.io/c/lethal-company/p/BepInEx/BepInExPack/",
     "https://thunderstore.io/c/lethal-company/p/notnotnotswipez/MoreCompany/",
@@ -34,7 +33,6 @@ $urls = @(
     "https://thunderstore.io/c/lethal-company/p/anormaltwig/LateCompany/",
     "https://thunderstore.io/c/lethal-company/p/RugbugRedfern/Skinwalkers/",
     "https://thunderstore.io/c/lethal-company/p/Sligili/HDLethalCompany/",
-    "https://thunderstore.io/c/lethal-company/p/Midge/PushCompany/",
     "https://thunderstore.io/c/lethal-company/p/sunnobunno/LandMineFartReverb/",
     "https://thunderstore.io/c/lethal-company/p/Nips/Brutal_Company_Plus/",
     "https://thunderstore.io/c/lethal-company/p/Stoneman/LethalProgression/",
@@ -67,7 +65,15 @@ $urls = @(
     "https://thunderstore.io/c/lethal-company/p/Jordo/NeedyCats/",
     "https://thunderstore.io/c/lethal-company/p/malco/Lategame_Upgrades/",
     "https://thunderstore.io/c/lethal-company/p/kRYstall9/FastSwitchPlayerViewInRadar/",
-    "https://thunderstore.io/c/lethal-company/p/sunnobunno/YippeeMod/"
+    "https://thunderstore.io/c/lethal-company/p/sunnobunno/YippeeMod/",
+    "https://thunderstore.io/c/lethal-company/p/Chrispacito/Longnose_Anime_Suits/",
+    "https://thunderstore.io/c/lethal-company/p/scoopy/Scoopys_Variety_Mod/",
+    "https://thunderstore.io/c/lethal-company/p/Mhz/MoreHead/",
+    "https://thunderstore.io/c/lethal-company/p/NomnomAB/RollingGiant/",
+    "https://thunderstore.io/c/lethal-company/p/FlipMods/SkipToMultiplayerMenu/",
+    "https://thunderstore.io/c/lethal-company/p/rafl/BonkHitSfxFixed/",
+    "https://thunderstore.io/c/lethal-company/p/IntegrityChaos/Diversity/"
+
 )
 
 $savedModsFileName = "saved_mods.json"
