@@ -75,13 +75,13 @@ $urls = @(
     "https://thunderstore.io/c/lethal-company/p/rafl/BonkHitSfxFixed/",
     "https://thunderstore.io/c/lethal-company/p/FlipMods/TooManyEmotes/"
     "https://thunderstore.io/c/lethal-company/p/IntegrityChaos/Diversity/",
-    "https://thunderstore.io/c/lethal-company/p/ViViKo/ViViKoCosmetics/",
-    "https://thunderstore.io/c/lethal-company/p/ViViKo/MoreMaterials/",
+    # "https://thunderstore.io/c/lethal-company/p/ViViKo/ViViKoCosmetics/",
+    # "https://thunderstore.io/c/lethal-company/p/ViViKo/MoreMaterials/",
     # "https://thunderstore.io/c/lethal-company/p/Diversion/MaidOutfitFix/",
     "https://thunderstore.io/c/lethal-company/p/Frack9/DarkMist/",
     "https://thunderstore.io/c/lethal-company/p/Suskitech/AlwaysHearActiveWalkies/",
     "https://thunderstore.io/c/lethal-company/p/AllToasters/SpectateEnemies/",
-    "https://thunderstore.io/c/lethal-company/p/IAmBatby/LethalLevelLoader/"
+    "https://thunderstore.io/c/lethal-company/p/IAmBatby/LethalLevelLoader/",
     # "https://thunderstore.io/c/lethal-company/p/Renegades/FlashlightToggle/",
     # "https://thunderstore.io/c/lethal-company/p/Renegades/WalkieUse/"
 
