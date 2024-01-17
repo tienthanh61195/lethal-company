@@ -35,12 +35,12 @@ $urls = @(
     "https://thunderstore.io/c/lethal-company/p/Sligili/HDLethalCompany/",
     "https://thunderstore.io/c/lethal-company/p/sunnobunno/LandMineFartReverb/",
     "https://thunderstore.io/c/lethal-company/p/Nips/Brutal_Company_Plus/",
-    # "https://thunderstore.io/c/lethal-company/p/Stoneman/LethalProgression/",
+    "https://thunderstore.io/c/lethal-company/p/Stoneman/LethalProgression/",
     "https://thunderstore.io/c/lethal-company/p/EliteMasterEric/Coroner/",
     "https://thunderstore.io/c/lethal-company/p/Evaisa/LethalThings/",
-    # "https://thunderstore.io/c/lethal-company/p/FlipMods/ReservedWalkieSlot/",
-    # "https://thunderstore.io/c/lethal-company/p/FlipMods/ReservedFlashlightSlot/",
-    # "https://thunderstore.io/c/lethal-company/p/FlipMods/ReservedItemSlotCore/",
+    "https://thunderstore.io/c/lethal-company/p/FlipMods/ReservedWalkieSlot/",
+    "https://thunderstore.io/c/lethal-company/p/FlipMods/ReservedFlashlightSlot/",
+    "https://thunderstore.io/c/lethal-company/p/FlipMods/ReservedItemSlotCore/",
     "https://thunderstore.io/c/lethal-company/p/TwinDimensionalProductions/CoilHeadStare/",
     "https://thunderstore.io/c/lethal-company/p/Evaisa/LethalLib/",
     "https://thunderstore.io/c/lethal-company/p/Evaisa/HookGenPatcher/",
@@ -58,11 +58,11 @@ $urls = @(
     "https://thunderstore.io/c/lethal-company/p/sfDesat/Orion/",
     "https://thunderstore.io/c/lethal-company/p/2018/LC_API/",
     "https://thunderstore.io/c/lethal-company/p/HolographicWings/LethalExpansion/",
-    # "https://thunderstore.io/c/lethal-company/p/Gemumoddo/LethalEmotesAPI/",
+    "https://thunderstore.io/c/lethal-company/p/Gemumoddo/LethalEmotesAPI/",
     "https://thunderstore.io/c/lethal-company/p/Rune580/LethalCompany_InputUtils/",
-    # "https://thunderstore.io/c/lethal-company/p/Gemumoddo/BadAssCompany/",
+    "https://thunderstore.io/c/lethal-company/p/Gemumoddo/BadAssCompany/",
     "https://thunderstore.io/c/lethal-company/p/AinaVT/LethalConfig/",
-    "https://thunderstore.io/c/lethal-company/p/PotatoePet/AdvancedCompany/",
+    # "https://thunderstore.io/c/lethal-company/p/PotatoePet/AdvancedCompany/",
     "https://thunderstore.io/c/lethal-company/p/Jordo/NeedyCats/",
     "https://thunderstore.io/c/lethal-company/p/malco/Lategame_Upgrades/",
     "https://thunderstore.io/c/lethal-company/p/kRYstall9/FastSwitchPlayerViewInRadar/",
@@ -75,15 +75,15 @@ $urls = @(
     "https://thunderstore.io/c/lethal-company/p/rafl/BonkHitSfxFixed/",
     "https://thunderstore.io/c/lethal-company/p/FlipMods/TooManyEmotes/"
     "https://thunderstore.io/c/lethal-company/p/IntegrityChaos/Diversity/",
-    # "https://thunderstore.io/c/lethal-company/p/ViViKo/ViViKoCosmetics/",
-    # "https://thunderstore.io/c/lethal-company/p/ViViKo/MoreMaterials/",
+    "https://thunderstore.io/c/lethal-company/p/ViViKo/ViViKoCosmetics/",
+    "https://thunderstore.io/c/lethal-company/p/ViViKo/MoreMaterials/",
     # "https://thunderstore.io/c/lethal-company/p/Diversion/MaidOutfitFix/",
     "https://thunderstore.io/c/lethal-company/p/Frack9/DarkMist/",
     "https://thunderstore.io/c/lethal-company/p/Suskitech/AlwaysHearActiveWalkies/",
     "https://thunderstore.io/c/lethal-company/p/AllToasters/SpectateEnemies/",
-    "https://thunderstore.io/c/lethal-company/p/IAmBatby/LethalLevelLoader/",
+    "https://thunderstore.io/c/lethal-company/p/IAmBatby/LethalLevelLoader/"
     # "https://thunderstore.io/c/lethal-company/p/Renegades/FlashlightToggle/",
-    "https://thunderstore.io/c/lethal-company/p/Renegades/WalkieUse/"
+    # "https://thunderstore.io/c/lethal-company/p/Renegades/WalkieUse/"
 
 )
 
