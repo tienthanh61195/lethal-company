@@ -82,7 +82,7 @@ $urls = @(
     "https://thunderstore.io/c/lethal-company/p/Suskitech/AlwaysHearActiveWalkies/",
     "https://thunderstore.io/c/lethal-company/p/AllToasters/SpectateEnemies/",
     "https://thunderstore.io/c/lethal-company/p/IAmBatby/LethalLevelLoader/",
-    "https://thunderstore.io/c/lethal-company/p/Renegades/FlashlightToggle/",
+    # "https://thunderstore.io/c/lethal-company/p/Renegades/FlashlightToggle/",
     "https://thunderstore.io/c/lethal-company/p/Renegades/WalkieUse/"
 
 )
