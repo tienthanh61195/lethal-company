@@ -81,7 +81,7 @@ $urls = @(
     "https://thunderstore.io/c/lethal-company/p/Frack9/DarkMist/",
     "https://thunderstore.io/c/lethal-company/p/Suskitech/AlwaysHearActiveWalkies/",
     "https://thunderstore.io/c/lethal-company/p/AllToasters/SpectateEnemies/",
-    "https://thunderstore.io/c/lethal-company/p/IAmBatby/LethalLevelLoader/",
+    "https://thunderstore.io/c/lethal-company/p/IAmBatby/LethalLevelLoader/"
     # "https://thunderstore.io/c/lethal-company/p/Renegades/FlashlightToggle/",
     # "https://thunderstore.io/c/lethal-company/p/Renegades/WalkieUse/"
 
@@ -171,10 +171,12 @@ if ($url.Length) {
         $url = $property.Name
         if (-not $newSavedModsObject.Value.$url) {
             foreach ($path in $property.Value.Path) {
-                try {
-                    Remove-Item ".\$path" -Force
-                } catch{}
-            }
+                if (-not ($varA -like "*config*")) {
+                    try {
+                        Remove-Item ".\$path" -Force
+                    } catch{}
+                }
+        }
           
         }
     }
